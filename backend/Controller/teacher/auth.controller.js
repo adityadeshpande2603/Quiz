@@ -1,6 +1,6 @@
 import prisma from "../../lib/prisma.js";
 import bcrypt from "bcrypt";
-
+import jwt from 'jsonwebtoken';
 export const register = async (req, res) => {
   try {
     const { name, email, institute, password } = req.body;
@@ -35,3 +35,52 @@ export const register = async (req, res) => {
     }
   }
 };
+
+export const login = async (req, res) => {
+
+  try{
+  const { email, password } = req.body;
+
+  const teacher = await prisma.teacher.findUnique({
+    where: { email },
+  });
+
+  
+
+  if (!teacher) {
+    return res.status(401).json({ message: "Invalid Credentials" });
+  }
+
+  // Compare the stored hashed password with the plaintext password
+  const isPasswordValid = await bcrypt.compare(password, teacher.password);
+
+  if (!isPasswordValid) {
+    return res.status(401).json({ message: "Invalid Credentials" });
+  }
+
+  const {password:teacherPassword,...teacherInfo}=teacher
+  const age=1000*60*60*24*7;
+  const token =jwt.sign({
+      id:teacher.id,
+  },process.env.JWT_SECRETE_KEY,
+  {expiresIn:age}
+)
+
+res.cookie("token",token,{
+  httpOnly:true,
+  maxAge:age
+}).status(200).json(teacherInfo)
+}
+catch(e) {
+
+  // Log and send generic error
+  console.error(e);
+  res.status(500).send("Invalid Credentials");
+
+}
+
+ 
+};
+export const logout =(req,res)=>{
+res.clearCookie("token").status(200).json({message:"logout successful"})
+}

@@ -1,5 +1,5 @@
 import express from "express";
-import { register } from "../../Controller/teacher/auth.controller.js";
+import { login, register } from "../../Controller/teacher/auth.controller.js";
 // console,log(register);
 
 
@@ -10,7 +10,7 @@ import { register } from "../../Controller/teacher/auth.controller.js";
 const router=express.Router();
 
 router.post("/register", register);
-// router.post("/login", login);
+router.post("/login", login);
 // router.post("/logout", logout );
 
 

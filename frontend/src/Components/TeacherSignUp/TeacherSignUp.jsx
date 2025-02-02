@@ -40,6 +40,7 @@ const TeacherSignUp = () => {
                 institute: formData.school, // Make sure to send the correct field here
                 password: formData.password,
             });
+            console.log(res);
             navigate("/teacher/signin");
         } catch (err) {
             console.error(err); // Log the entire error
