@@ -59,12 +59,22 @@ const CreateQuiz = ({ onClose, setShowCreateQuiz,showCreateQuiz }) => {
 
                 {/* Time Field */}
                 <div className="mb-6">
-                    <label htmlFor="Time" className="block text-gray-600 font-medium mb-2">
-                        Time
+                    <label htmlFor="startTime" className="block text-gray-600 font-medium mb-2">
+                       Start Time
                     </label>
                     <input
                         type="time"
-                        id="Time"
+                        id="startTime"
+                        className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                    />
+                </div>
+                <div className="mb-6">
+                    <label htmlFor="finishTime" className="block text-gray-600 font-medium mb-2">
+                       finish Time
+                    </label>
+                    <input
+                        type="time"
+                        id="finishTime"
                         className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
                     />
                 </div>

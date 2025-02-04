@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios"
+import { AuthContext } from "../../../lib/authContext/AuthContext.jsx";
 
 const TeacherSignIn = () => {
+
+    const {currentUser,setCurrentUser,updateUser}=useContext(AuthContext);
 
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
@@ -34,7 +37,8 @@ const TeacherSignIn = () => {
             }, {
                 withCredentials: true,  // This ensures the cookie is sent
             });
-            console.log(res);
+            console.log(res.data);
+            updateUser(res.data);
             navigate("/teacher/homepage");
         } catch (err) {
             console.error(err); // Log the entire error

@@ -15,6 +15,8 @@ import TeacherHomePage from './Pages/TeacherHomePage/TeacherHomePage.jsx';
 import CreateQuiz from './Pages/CreateQuiz/CreateQuiz.jsx';
 import QuizBarGraph from './Components/QuizBarGraph/QuizBarGraph.jsx';
 import QuizQuestion from './Pages/QuizQuestion/QuizQuestion.jsx';
+import { AuthContextProvider } from '../lib/authContext/AuthContext.jsx';
+import { RequireAuth } from './Pages/RequireAuth/RequireAuth.jsx';
 
 
 const router = createBrowserRouter([
@@ -27,38 +29,46 @@ const router = createBrowserRouter([
         element: <TeacherStudentCard></TeacherStudentCard>
       },
       {
-        path : "/teacher/register",
-        element:<TeacherSignUp></TeacherSignUp>
-       
+        path: "/teacher/register",
+        element: <TeacherSignUp></TeacherSignUp>
+
       },
       {
-        path : "/teacher/signin",
-        element:<TeacherSignIn></TeacherSignIn>
-       
+        path: "/teacher/signin",
+        element: <TeacherSignIn></TeacherSignIn>
+
       }
 
     ]
   },
   {
-    path:"/teacher/homepage",
-    element:<TeacherHomePage></TeacherHomePage>,
-    children:[
+    path: "/teacher/",
+    element: <RequireAuth></RequireAuth>,
+     children: [
       {
-        path:"/teacher/homepage/",
-        element:<QuizBarGraph></QuizBarGraph>
+        path: "/teacher/",
+        element: <TeacherHomePage></TeacherHomePage>,
+        children: [
+          {
+            path: "/teacher/homepage/",
+            element: <QuizBarGraph></QuizBarGraph>
+          },
+          {
+            path: "/teacher/homepage/quizquestion",
+            element: <QuizQuestion></QuizQuestion>
+          }
+
+
+        ]
       },
       {
-        path:"/teacher/homepage/quizquestion",
-        element:<QuizQuestion></QuizQuestion>
+        path: "/teacher/createquiz",
+        element: <CreateQuiz></CreateQuiz>
       }
-      
-      
+
     ]
   },
-  {
-    path:"/teacher/createquiz",
-    element:<CreateQuiz></CreateQuiz>
-  }
+
 
 ]);
 
@@ -66,6 +76,8 @@ const router = createBrowserRouter([
 const root = createRoot(document.getElementById('root'));
 root.render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthContextProvider>
+      <RouterProvider router={router} />
+    </AuthContextProvider>
   </StrictMode>
 );
