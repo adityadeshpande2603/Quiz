@@ -1,25 +1,43 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const CreateQuiz = ({ onClose, setShowCreateQuiz,showCreateQuiz }) => {
+const CreateQuiz = ({ onClose, setShowCreateQuiz, showCreateQuiz }) => {
     const navigate = useNavigate();
 
+    // State to store form data
+    const [formData, setFormData] = useState({
+        quizName: "",
+        date: "",
+        startTime: "",
+        finishTime: "",
+    });
+
+    // Handle input changes
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    // Handle form submission
     const handleContinue = () => {
+        console.log("Form Data:", formData); // Log the form data
+
         // Hide the modal first
+
         setShowCreateQuiz(false);
 
-        // Ensure React updates the state before navigating
+        // Ensure state updates before navigation
         setTimeout(() => {
             navigate("/teacher/homepage/quizquestion");
         }, 0);
-
-        console.log(showCreateQuiz, "from createQuiz")
     };
 
     return (
         <div className="fixed inset-0 bg-gray-500/40 z-50 flex items-center justify-center backdrop-blur-sm">
-            {/* Full-screen Form */}
             <form className="relative flex flex-col border border-gray-300 shadow-lg w-96 bg-white p-6 rounded-lg">
-                {/* Close Button */}
                 <button
                     type="button"
                     onClick={onClose}
@@ -28,54 +46,60 @@ const CreateQuiz = ({ onClose, setShowCreateQuiz,showCreateQuiz }) => {
                     X
                 </button>
 
-                {/* Form Header */}
                 <h2 className="text-lg font-bold text-gray-700 mb-4 text-center">Create a New Quiz</h2>
 
                 {/* Quiz Name Field */}
                 <div className="mb-4">
-                    <label htmlFor="quizName" className="block text-gray-600 font-medium mb-2">
-                        Quiz Name
-                    </label>
+                    <label htmlFor="quizName" className="block text-gray-600 font-medium mb-2">Quiz Name</label>
                     <input
                         type="text"
                         name="quizName"
                         id="quizName"
                         placeholder="Enter quiz name"
                         className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                        value={formData.quizName}
+                        onChange={handleChange}
                     />
                 </div>
 
                 {/* Date Field */}
                 <div className="mb-4">
-                    <label htmlFor="Date" className="block text-gray-600 font-medium mb-2">
-                        Date
-                    </label>
+                    <label htmlFor="date" className="block text-gray-600 font-medium mb-2">Date</label>
                     <input
                         type="date"
-                        id="Date"
+                        name="date"
+                        id="date"
                         className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                        value={formData.date}
+                        onChange={handleChange}
                     />
                 </div>
 
-                {/* Time Field */}
-                <div className="mb-6">
-                    <label htmlFor="startTime" className="block text-gray-600 font-medium mb-2">
-                       Start Time
-                    </label>
+                {/* Start Time Field */}
+                <div className="mb-4">
+                    <label htmlFor="startTime" className="block text-gray-600 font-medium mb-2">Start Time</label>
                     <input
                         type="time"
+                        name="startTime"
                         id="startTime"
                         className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                        value={formData.startTime}
+                        onChange={handleChange}
+                        lang="sv" // Using lang attribute for locale
                     />
                 </div>
+
+                {/* Finish Time Field */}
                 <div className="mb-6">
-                    <label htmlFor="finishTime" className="block text-gray-600 font-medium mb-2">
-                       finish Time
-                    </label>
+                    <label htmlFor="finishTime" className="block text-gray-600 font-medium mb-2">Finish Time</label>
                     <input
                         type="time"
+                        name="finishTime"
                         id="finishTime"
                         className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                        value={formData.finishTime}
+                        onChange={handleChange}
+                        lang="sv" // Using lang attribute for locale
                     />
                 </div>
 

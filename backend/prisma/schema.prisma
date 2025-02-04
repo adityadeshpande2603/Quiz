@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -18,5 +12,16 @@ model Teacher {
   name      String
   email     String @unique
   institute String
-  password String
+  password  String
+  quizzes   Quiz[]  // One-to-many relation (optional)
+}
+
+model Quiz {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  quizName  String
+  date      DateTime
+  startTime String   // Changed from Time to String (format: "HH:mm:ss")
+  endTime   String   // Changed from Time to String (format: "HH:mm:ss")
+  teacher   Teacher? @relation(fields: [teacherId], references: [id]) 
+  teacherId String @db.ObjectId
 }
