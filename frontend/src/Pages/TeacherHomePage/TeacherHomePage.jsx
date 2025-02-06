@@ -3,6 +3,8 @@ import { Link, Outlet } from "react-router-dom";
 import UpcomingQuiz from "../../Components/UpcomingQuiz/UpcomingQuiz";
 import CreateQuiz from "../CreateQuiz/CreateQuiz";
 import QuizBarGraph from "../../Components/QuizBarGraph/QuizBarGraph";
+import TeacherHomePageLeft from "../../Components/TeacherHomePageLeft/TeacherHomePageLeft";
+
 
 
 
@@ -48,20 +50,22 @@ const TeacherHomePage = () => {
                                 onClick={handleShowCreateQuiz}
                             />
                         </div>
-                        <input
+                        {/* <input
                             type="text"
                             placeholder="Find Quiz"
                             className="border border-black border-solid m-2"
-                        />
+                        /> */}
                     </div>
 
                     {/* List of quizzes */}
-                    {[...Array(20)].map((_, index) => (
+                    {/* {[...Array(20)].map((_, index) => (
                         <div key={index} className="flex justify-left items-center">
                             <img src="/Avatar.jpg" alt="Quiz Avatar" className="size-8 rounded-full m-4" />
                             <div>Quiz Name {index + 1}</div>
                         </div>
-                    ))}
+                    ))} */}
+                <TeacherHomePageLeft></TeacherHomePageLeft>
+                  
                 </div>
 
                 {/* Middle Panel */}

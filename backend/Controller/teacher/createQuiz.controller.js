@@ -14,13 +14,13 @@ export const createquiz =async(req,res)=>{
     const newQuiz=await prisma.quiz.create({
         data:{
             quizName,
-            date:new Date(date + "T00:00:00Z"),
+            date:date,
             startTime,
             endTime,
             teacherId:userId
         }
     })
-
+    console.log("success!!")
     res.status(200).send("Quiz created successfully");
           
 
@@ -36,4 +36,20 @@ export const createquiz =async(req,res)=>{
     
 
 
+}
+
+export const getQuizes=async(req,res)=>{
+    try{
+        const quizzes = await prisma.quiz.findMany({
+            orderBy: {
+                date: "desc",  // Sort by date in descending order (latest first)
+            },
+        });
+
+        res.status(200).send(quizzes)
+    }
+    catch(e){
+        res.status(400).send("failed")
+
+    }
 }

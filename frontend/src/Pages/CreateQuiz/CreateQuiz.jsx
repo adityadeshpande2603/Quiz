@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../lib/authContext/AuthContext";
+import axios from "axios";
 
-const CreateQuiz = ({ onClose, setShowCreateQuiz, showCreateQuiz }) => {
+const CreateQuiz = ({ onClose, setShowCreateQuiz }) => {
     const navigate = useNavigate();
+    const { currentUser } = useContext(AuthContext);
 
     // State to store form data
     const [formData, setFormData] = useState({
@@ -22,17 +25,34 @@ const CreateQuiz = ({ onClose, setShowCreateQuiz, showCreateQuiz }) => {
     };
 
     // Handle form submission
-    const handleContinue = () => {
-        console.log("Form Data:", formData); // Log the form data
+    const handleContinue = async () => {
+        console.log("Form Data:", formData);
+        console.log("currentUser:", currentUser);
 
-        // Hide the modal first
-
+        // Hide the modal
         setShowCreateQuiz(false);
 
-        // Ensure state updates before navigation
-        setTimeout(() => {
-            navigate("/teacher/homepage/quizquestion");
-        }, 0);
+        // Convert date string (YYYY-MM-DD) to a Date object and format it to ISO
+        const formattedDate = new Date(formData.date);
+        
+        console.log("Formatted Date:", formattedDate.toISOString());
+        
+        try {
+            await axios.post("http://localhost:3000/api/auth/teacher/homepage/creatquiz", {
+                quizName: formData.quizName,
+                date: formattedDate.toISOString(), // Convert to valid ISO format for Prisma
+                startTime: formData.startTime,
+                endTime: formData.finishTime,
+                teacherId: currentUser.id
+            }, { withCredentials: true });
+
+            // Navigate after successful submission
+            setTimeout(() => {
+                navigate("/teacher/homepage/quizquestion");
+            }, 0);
+        } catch (error) {
+            console.error("Error creating quiz:", error);
+        }
     };
 
     return (
@@ -85,7 +105,6 @@ const CreateQuiz = ({ onClose, setShowCreateQuiz, showCreateQuiz }) => {
                         className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
                         value={formData.startTime}
                         onChange={handleChange}
-                        lang="sv" // Using lang attribute for locale
                     />
                 </div>
 
@@ -99,7 +118,6 @@ const CreateQuiz = ({ onClose, setShowCreateQuiz, showCreateQuiz }) => {
                         className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
                         value={formData.finishTime}
                         onChange={handleChange}
-                        lang="sv" // Using lang attribute for locale
                     />
                 </div>
 

@@ -39,6 +39,7 @@ const TeacherSignIn = () => {
             });
             console.log(res.data);
             updateUser(res.data);
+            console.log("login", currentUser);
             navigate("/teacher/homepage");
         } catch (err) {
             console.error(err); // Log the entire error
