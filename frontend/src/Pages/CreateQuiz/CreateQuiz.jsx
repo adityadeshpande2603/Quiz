@@ -25,7 +25,7 @@ const CreateQuiz = ({ onClose, setShowCreateQuiz }) => {
     };
 
     // Handle form submission
-    const handleContinue = async () => {
+    const handleContinue = async (e) => {
         console.log("Form Data:", formData);
         console.log("currentUser:", currentUser);
 
@@ -38,7 +38,7 @@ const CreateQuiz = ({ onClose, setShowCreateQuiz }) => {
         console.log("Formatted Date:", formattedDate.toISOString());
         
         try {
-            await axios.post("http://localhost:3000/api/auth/teacher/homepage/creatquiz", {
+            const res=await axios.post("http://localhost:3000/api/auth/teacher/homepage/creatquiz", {
                 quizName: formData.quizName,
                 date: formattedDate.toISOString(), // Convert to valid ISO format for Prisma
                 startTime: formData.startTime,
@@ -47,9 +47,12 @@ const CreateQuiz = ({ onClose, setShowCreateQuiz }) => {
             }, { withCredentials: true });
 
             // Navigate after successful submission
+            console.log("res",res);
             setTimeout(() => {
-                navigate("/teacher/homepage/quizquestion");
+                navigate(`/teacher/homepage/quizquestion/${res.data.id}`);
+                navigate(0);
             }, 0);
+           
         } catch (error) {
             console.error("Error creating quiz:", error);
         }

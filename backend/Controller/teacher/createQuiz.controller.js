@@ -21,7 +21,7 @@ export const createquiz =async(req,res)=>{
         }
     })
     console.log("success!!")
-    res.status(200).send("Quiz created successfully");
+    res.status(200).send(newQuiz);
           
 
 
@@ -52,4 +52,30 @@ export const getQuizes=async(req,res)=>{
         res.status(400).send("failed")
 
     }
+}
+
+export const createquestion=async(req,res)=>{
+    const { quizId } = req.query;
+    try{
+        const {question, optionA,optionB,optionC,optionD,correctAnswer,difficulty}=req.body;
+
+        const newQuestion=await prisma.questions.create({
+            data:{
+                question,
+                optionA,
+                optionB,
+                optionC,
+                optionD,
+                correctAnswer,
+                difficulty,
+                quizId
+            }
+        })
+        res.status(200).send(newQuestion)
+    }
+    catch(e){
+        console.log(e)
+        res.status(400).send("failed to create Question")
+    } 
+    
 }
