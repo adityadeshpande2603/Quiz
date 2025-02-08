@@ -1,9 +1,10 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-const Question = ({ divId, removeDiv, addDiv }) => {
+const Question = ({ divId, removeDiv, addDiv, editQuestion }) => {
     const { quizId } = useParams();
+    const [questionId, setQuestionId] = useState(null);
 
     const [formData, setFormData] = useState({
         question: "",
@@ -12,8 +13,24 @@ const Question = ({ divId, removeDiv, addDiv }) => {
         optionC: "",
         optionD: "",
         difficulty: "",
-        correctAnswer: "" // Store the actual answer value
+        correctAnswer: ""
     });
+
+    useEffect(() => {
+        if (editQuestion) {
+            console.log("editquestion",editQuestion);
+            setFormData({
+                question: editQuestion.question || "",
+                optionA: editQuestion.optionA || "",
+                optionB: editQuestion.optionB || "",
+                optionC: editQuestion.optionC || "",
+                optionD: editQuestion.optionD || "",
+                difficulty: editQuestion.difficulty || "Easy",
+                correctAnswer: editQuestion.correctAnswer || ""
+            });
+            setQuestionId(editQuestion.id);
+        }
+    }, [editQuestion]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -23,35 +40,54 @@ const Question = ({ divId, removeDiv, addDiv }) => {
         }));
     };
 
-    // ✅ Set the correct answer to the actual option value (not just "optionA", "optionB", etc.)
     const handleCheckboxClick = (option) => {
         setFormData((prev) => ({
             ...prev,
-            correctAnswer: prev[option], // Store the selected answer's actual value
+            correctAnswer: prev[option],
         }));
     };
+
+    const deleteQuestion=async (questionId)=>{
+
+        try{
+
+           await axios.delete(`http://localhost:3000/api/auth/teacher/homepage/deletequestion?questionId=${questionId}`,{withCredentials:true});
+
+           console.log("deleted successfully")
+           removeDiv(divId);
+        }
+        catch(e){
+            console.log("not able to delete question")
+        }
+
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Form Data Submitted:", formData);
 
-        try {
-            const res = await axios.post(
-                `http://localhost:3000/api/auth/teacher/homepage/createquestion?quizId=${quizId}`,
-                {
-                    question: formData.question,
-                    optionA: formData.optionA,
-                    optionB: formData.optionB,
-                    optionC: formData.optionC,
-                    optionD: formData.optionD,
-                    correctAnswer: formData.correctAnswer, // ✅ Send actual answer value
-                    difficulty: formData.difficulty || "Easy", // Set a default difficulty
-                },
-                { withCredentials: true }
-            );
-            console.log("Success:", res.data);
-        } catch (e) {
-            console.log("Error:", e);
+        if (questionId) {
+            try {
+                await axios.put("http://localhost:3000/api/auth/teacher/homepage/updatequestion", {
+                    questionId,
+                    ...formData
+                }, { withCredentials: true });
+                console.log("Question Updated!");
+            } catch (e) {
+                console.log("Update failed:", e);
+            }
+        } else {
+            try {
+                const res = await axios.post(
+                    `http://localhost:3000/api/auth/teacher/homepage/createquestion?quizId=${quizId}`,
+                    formData,
+                    { withCredentials: true }
+                );
+                console.log("Success:", res.data);
+                if (res.data && res.data.id) setQuestionId(res.data.id);
+            } catch (e) {
+                console.log("Error:", e);
+            }
         }
     };
 
@@ -62,16 +98,11 @@ const Question = ({ divId, removeDiv, addDiv }) => {
                     <div className="flex">
                         <textarea
                             name="question"
-                            placeholder="Quiz Description/Instruction"
+                            placeholder="Quiz Question"
                             className="w-full h-14 p-2 border border-gray-300 rounded-md mt-3"
                             rows={3}
                             value={formData.question}
                             onChange={handleChange}
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter" && !e.shiftKey) {
-                                    e.preventDefault();
-                                }
-                            }}
                         />
                         <select
                             name="difficulty"
@@ -79,9 +110,6 @@ const Question = ({ divId, removeDiv, addDiv }) => {
                             value={formData.difficulty}
                             onChange={handleChange}
                         >
-                            <option value="" disabled>
-                                -- Choose Difficulty --
-                            </option>
                             <option value="Easy">Easy</option>
                             <option value="Medium">Medium</option>
                             <option value="Hard">Hard</option>
@@ -91,19 +119,11 @@ const Question = ({ divId, removeDiv, addDiv }) => {
                     {/* Options Section */}
                     <div className="options mt-4">
                         {["optionA", "optionB", "optionC", "optionD"].map((option, index) => (
-                            <div
-                                key={option}
-                                className={`flex items-center space-x-2 text-center 
-                                    ${formData.correctAnswer && formData.correctAnswer === formData[option] ? "bg-green-500" : ""} 
-                                    p-2 transition-all duration-300 ease-in-out`}
-                            >
-                                {/* Checkbox to select correct answer */}
-                                <div
-                                    className="h-7 w-7 border-black border-solid border-2 cursor-pointer"
-                                    onClick={() => handleCheckboxClick(option)}
-                                ></div>
-
-                                {/* Option Textarea */}
+                            <div key={option} className={`flex items-center space-x-2 p-2 
+                                ${(formData.correctAnswer === formData[option] && formData.correctAnswer!="") ? "bg-green-500" : ""}`}>
+                                <div className="h-7 w-7 border-black border-2 cursor-pointer"
+                                    onClick={() => handleCheckboxClick(option)}>
+                                </div>
                                 <textarea
                                     name={option}
                                     placeholder={`Option ${index + 1}`}
@@ -111,12 +131,7 @@ const Question = ({ divId, removeDiv, addDiv }) => {
                                     rows={3}
                                     value={formData[option]}
                                     onChange={handleChange}
-                                    onKeyDown={(e) => {
-                                        if (e.key === "Enter" && !e.shiftKey) {
-                                            e.preventDefault();
-                                        }
-                                    }}
-                                ></textarea>
+                                />
                             </div>
                         ))}
                     </div>
@@ -125,23 +140,10 @@ const Question = ({ divId, removeDiv, addDiv }) => {
                 {/* Buttons */}
                 <div className="flex justify-end">
                     <button type="submit" className="h-10 w-20 bg-blue-500 m-4 text-white">
-                        Save
+                        {questionId ? "Update" : "Save"}
+                        {/* {console.log(questionId,"aasdad")}; */}
                     </button>
-                    <button
-                        type="button"
-                        className="h-10 w-20 bg-green-500 m-4 text-white"
-                        onClick={() => {
-                            console.log(formData);
-                            addDiv();
-                        }}
-                    >
-                        Add
-                    </button>
-                    <button
-                        type="button"
-                        className="h-10 w-20 bg-red-500 m-4 text-white"
-                        onClick={() => removeDiv(divId)}
-                    >
+                    <button type="button" className="h-10 w-20 bg-red-500 m-4 text-white" onClick={() => deleteQuestion(questionId)}>
                         Remove
                     </button>
                 </div>

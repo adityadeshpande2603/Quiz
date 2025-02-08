@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const TeacherHomePageLeft = () => {
     const [quizzes, setQuizzes] = useState([]);  // Store all quizzes
     const [filteredQuizzes, setFilteredQuizzes] = useState([]);  // Store filtered quizzes
     const [searchQuery, setSearchQuery] = useState("");  // Search input state
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchQuizzes = async () => {
@@ -47,7 +49,9 @@ const TeacherHomePageLeft = () => {
             {/* Quiz List */}
             {filteredQuizzes.length > 0 ? (
                 filteredQuizzes.map((quiz) => (
-                    <div key={quiz.id} className="flex items-center">
+                    <div key={quiz.id} className="flex items-center cursor-pointer hover:font-bold" onClick={() => {
+                        navigate(`/teacher/homepage/quizquestion/${quiz.id}`);
+                    }}>
                         <img src="/Avatar.jpg" alt="Quiz Avatar" className="size-8 rounded-full m-4" />
                         <div>{quiz.quizName}</div>
                     </div>
