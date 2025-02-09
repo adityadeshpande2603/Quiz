@@ -8,34 +8,35 @@ datasource db {
 }
 
 model Teacher {
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
   name      String
-  email     String  @unique
+  email     String @unique
   institute String
   password  String
-  quizzes   Quiz[]  // One-to-many relation
+  quizzes   Quiz[] // One-to-many relation
 }
 
 model Quiz {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
   quizName  String
   date      DateTime
-  startTime String   // Changed from String for better time handling
-  endTime  String   // Changed from String for better time handling
-  teacher   Teacher   @relation(fields: [teacherId], references: [id], onDelete: Cascade) 
-  teacherId String    @db.ObjectId
-  questions Questions[]  // Removed `@relation(name: "QuizQuestions", onDelete: Cascade)` from here
+  startTime String // Changed from String for better time handling
+  endTime   String // Changed from String for better time handling
+  teacher   Teacher     @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  teacherId String      @db.ObjectId
+  isActive  Boolean     @default(false)
+  questions Questions[] // Removed `@relation(name: "QuizQuestions", onDelete: Cascade)` from here
 }
 
 model Questions {
-  id            String  @id @default(auto()) @map("_id") @db.ObjectId
-  question  String
+  id            String @id @default(auto()) @map("_id") @db.ObjectId
+  question      String
   optionA       String
   optionB       String
   optionC       String
   optionD       String
   correctAnswer String
-  difficulty   String
-  quiz          Quiz    @relation(fields: [quizId], references: [id], onDelete: Cascade) 
-  quizId        String  @db.ObjectId
+  difficulty    String
+  quiz          Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  quizId        String @db.ObjectId
 }
