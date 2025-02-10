@@ -70,5 +70,5 @@ model Response {
   question   Questions @relation(fields: [questionId], references: [id], onDelete: Cascade)
   questionId String    @db.ObjectId
   selectedAnswer String // Stores the student's selected answer
-  isCorrect  Boolean  // Whether the answer is correct
+  isCorrect  Boolean @default(false)  // Whether the answer is correct
 }

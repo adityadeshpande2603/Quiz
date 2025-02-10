@@ -1,6 +1,6 @@
 import express from "express";
 import { verifyToken } from "../../middleware/verifytoken.js";
-import { createquestion, createquiz,  deletequestion,  getQuizById,  getQuizes, updatequestion, updatequizname } from "../../Controller/teacher/createQuiz.controller.js";
+import {  createattempt, createquestion, createquiz,  createresponse,  deletequestion,  getQuizById,  getQuizes, updateattempt, updatequestion, updatequizname } from "../../Controller/teacher/createQuiz.controller.js";
 
 // console,log(register);
 
@@ -16,8 +16,11 @@ router.post("/creatquiz",verifyToken, createquiz);
 router.get("/getquiz",verifyToken, getQuizes);
 router.get("/getquizbyid",verifyToken, getQuizById);
 router.post("/createquestion",verifyToken, createquestion);
+router.post("/createattempt",verifyToken, createattempt);
+router.post("/createresponse",verifyToken, createresponse);
 router.put("/updatequestion",verifyToken, updatequestion);
 router.put("/updatequizname",verifyToken, updatequizname);
+router.put("/updateattempt",verifyToken, updateattempt);
 router.delete("/deletequestion",verifyToken, deletequestion);
 
 

@@ -114,6 +114,82 @@ export const createquestion=async(req,res)=>{
     } 
     
 }
+export const createattempt=async(req,res)=>{
+    const { quizId } = req.query;
+    try{
+        const {score}=req.body;
+
+        const newAttempt=await prisma.attempt.create({
+            data:{
+             studentId: req.userId,
+              quizId,
+              score,
+              submitted :true
+
+            }
+        })
+
+       
+        res.status(200).send(newAttempt)
+    }
+    catch(e){
+        console.log(e)
+        res.status(400).send("failed to create Attempt")
+    }
+    
+   
+    
+}
+export const updateattempt = async (req, res) => {
+    try {
+        const { score, attemptId } = req.body;
+
+        if (!attemptId) {
+            return res.status(400).json({ error: "Attempt ID is required" });
+        }
+
+        const updatedAttempt = await prisma.attempt.update({
+            where: {
+                id: attemptId, // ✅ Correct syntax
+            },
+            data: {
+                score, // ✅ Updating the score
+            },
+        });
+
+        res.status(200).json(updatedAttempt);
+    } catch (e) {
+        console.error("Error updating attempt:", e);
+        res.status(500).json({ error: "Failed to update attempt" });
+    }
+};
+export const createresponse=async(req,res)=>{
+    // const { quizId } = req.query;
+    try{
+        const {attemptId,questionId,selectedAnswer,isCorrect}=req.body;
+
+        const newResponse=await prisma.response.create({
+            data:{
+             attemptId,
+             questionId,
+             selectedAnswer,
+             isCorrect
+
+
+            }
+        })
+
+       
+        res.status(200).send(newResponse)
+    }
+    catch(e){
+        console.log(e)
+        res.status(400).send("failed to create Response")
+    }
+    
+   
+    
+}
 
 export const updatequestion = async (req, res) => {
     try {

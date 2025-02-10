@@ -19,6 +19,7 @@ import { AuthContextProvider } from '../lib/authContext/AuthContext.jsx';
 import { RequireAuth } from './Pages/RequireAuth/RequireAuth.jsx';
 import StudentSignUpPage from './studentPage/SignUpPage/StudentSignUpPage.jsx';
 import StudentSignInPage from './studentPage/studentSignInPage/StudentSignInPage.jsx';
+import StudentExamWindow from './studentPage/studentExamWindow/StudentExamWindow.jsx';
 
 
 const router = createBrowserRouter([
@@ -48,6 +49,7 @@ const router = createBrowserRouter([
         path:"/student/signin",
         element: <StudentSignInPage></StudentSignInPage>
       }
+  
 
     ]
   },
@@ -78,6 +80,10 @@ const router = createBrowserRouter([
 
     ]
   },
+  {
+    path:"/student/quiz/:quizId",
+    element:<StudentExamWindow></StudentExamWindow>
+  }
 
 
 ]);
