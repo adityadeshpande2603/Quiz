@@ -17,6 +17,8 @@ import QuizBarGraph from './Components/QuizBarGraph/QuizBarGraph.jsx';
 import QuizQuestion from './Pages/QuizQuestion/QuizQuestion.jsx';
 import { AuthContextProvider } from '../lib/authContext/AuthContext.jsx';
 import { RequireAuth } from './Pages/RequireAuth/RequireAuth.jsx';
+import StudentSignUpPage from './studentPage/SignUpPage/StudentSignUpPage.jsx';
+import StudentSignInPage from './studentPage/studentSignInPage/StudentSignInPage.jsx';
 
 
 const router = createBrowserRouter([
@@ -37,6 +39,14 @@ const router = createBrowserRouter([
         path: "/teacher/signin",
         element: <TeacherSignIn></TeacherSignIn>
 
+      },
+      {
+        path:"/student/register",
+        element:<StudentSignUpPage></StudentSignUpPage>
+      },
+      {
+        path:"/student/signin",
+        element: <StudentSignInPage></StudentSignInPage>
       }
 
     ]

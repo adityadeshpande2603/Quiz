@@ -38,23 +38,30 @@ export const createquiz =async(req,res)=>{
 
 }
 
-export const getQuizes=async(req,res)=>{
+export const getQuizes = async (req, res) => {
+    const { teacherId } = req.query;
 
-    
-    try{
+    // ✅ Validate teacherId
+    if (!teacherId) {
+        return res.status(400).json({ error: "Teacher ID is required" });
+    }
+
+    try {
         const quizzes = await prisma.quiz.findMany({
+            where: {
+                teacherId: teacherId.toString(), // ✅ Ensure teacherId is a string
+            },
             orderBy: {
-                date: "desc",  // Sort by date in descending order (latest first)
+                date: "desc", // ✅ Sort quizzes by date (latest first)
             },
         });
 
-        res.status(200).send(quizzes)
+        res.status(200).json(quizzes);
+    } catch (error) {
+        console.error("Error fetching quizzes:", error);
+        res.status(500).json({ error: "Failed to fetch quizzes" });
     }
-    catch(e){
-        res.status(400).send("failed")
-
-    }
-}
+};
 export const getQuizById = async (req, res) => {
     try {
         const { quizId } = req.query;

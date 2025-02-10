@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../lib/authContext/AuthContext";
 
 const TeacherHomePageLeft = () => {
     const [quizzes, setQuizzes] = useState([]);  // Store all quizzes
@@ -8,12 +9,15 @@ const TeacherHomePageLeft = () => {
     const [searchQuery, setSearchQuery] = useState("");  // Search input state
     const navigate = useNavigate();
 
+    const {currentUser}=useContext(AuthContext);
+
     useEffect(() => {
         const fetchQuizzes = async () => {
             try {
-                const res = await axios.get("http://localhost:3000/api/auth/teacher/homepage/getquiz", { withCredentials: true });
+                const res = await axios.get(`http://localhost:3000/api/auth/teacher/homepage/getquiz?teacherId=${currentUser.id}`, { withCredentials: true });
                 setQuizzes(res.data);
                 setFilteredQuizzes(res.data);  // Initially, show all quizzes
+                console.log("asfhjaksnflakf")
             } catch (error) {
                 console.error("Error fetching quizzes:", error);
             }
@@ -38,6 +42,7 @@ const TeacherHomePageLeft = () => {
     return (
         <div>
             {/* Search Bar */}
+            {console.log(currentUser)}
             <input
                 type="text"
                 placeholder="Find Quiz"

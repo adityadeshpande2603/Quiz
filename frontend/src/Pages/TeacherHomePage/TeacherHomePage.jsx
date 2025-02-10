@@ -1,19 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link, Outlet } from "react-router-dom";
 import axios from "axios";
 import UpcomingQuiz from "../../Components/UpcomingQuiz/UpcomingQuiz";
 import CreateQuiz from "../CreateQuiz/CreateQuiz";
 import TeacherHomePageLeft from "../../Components/TeacherHomePageLeft/TeacherHomePageLeft";
 import moment from "moment-timezone";
+import { AuthContext } from "../../../lib/authContext/AuthContext";
 
 const TeacherHomePage = () => {
     const [showCreateQuiz, setShowCreateQuiz] = useState(false);
     const [quizzes, setQuizzes] = useState([]); // Store quizzes
+    const {currentUser}=useContext(AuthContext);
 
     useEffect(() => {
         const fetchQuizzes = async () => {
             try {
-                const res = await axios.get("http://localhost:3000/api/auth/teacher/homepage/getquiz", { withCredentials: true });
+                const res = await axios.get(`http://localhost:3000/api/auth/teacher/homepage/getquiz?teacherId=${currentUser.id}`, { withCredentials: true })
                 setQuizzes(res.data);
             } catch (error) {
                 console.error("Error fetching quizzes:", error);

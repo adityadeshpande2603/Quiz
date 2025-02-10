@@ -12,10 +12,12 @@ const TeacherStudentCard = () => {
 
                 </div>
                 </Link>
+                <Link to="student/register">
                 <div className="student h-80 w-80 backdrop-blur-md bg-white/30  flex flex-col hover:size-96 items-center justify-center text-white text-2xl">
                     <img src="/student.jpg" alt="" className="h-52 w-52" />
                     <div className="font-bold">Student</div>
                 </div>
+                </Link>
             </div>
             
         </div>
