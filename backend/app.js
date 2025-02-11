@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cookieParser())
 app.use(cors({
-    origin: "https://quiz-2-k76f.onrender.com", 
+    origin: ["http://localhost:5173", "https://quiz-2-k76f.onrender.com"], 
     credentials: true,
 }));
 app.use("/api/auth/teacher/homepage",QuizRouter)
