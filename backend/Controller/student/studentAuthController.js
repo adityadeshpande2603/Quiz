@@ -85,3 +85,31 @@ catch(e) {
 export const logout =(req,res)=>{
 res.clearCookie("token").status(200).json({message:"logout successful"})
 }
+
+
+export const getStudentById=async(req,res)=>{
+  try {
+    const { studentId } = req.query;
+
+    // ✅ Validate input
+    if (!studentId) {
+        return res.status(400).json({ error: "student ID is required" });
+    }
+
+    // ✅ Fetch quiz by ID
+    const student = await prisma.student.findUnique({
+        where: { id: studentId },
+        include: { attempts: true }, // Optional: Fetch related questions
+    });
+
+    // ✅ Handle case where quiz is not found
+    if (!student) {
+        return res.status(404).json({ error: "student not found" });
+    }
+
+    res.status(200).json(student);
+} catch (e) {
+    console.error("Error fetching student:", e);
+    res.status(500).json({ error: "Failed to fetch student" });
+}
+}

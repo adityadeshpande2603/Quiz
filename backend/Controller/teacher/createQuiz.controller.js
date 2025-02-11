@@ -88,6 +88,32 @@ export const getQuizById = async (req, res) => {
         res.status(500).json({ error: "Failed to fetch quiz" });
     }
 };
+export const getAttemptyId = async (req, res) => {
+    try {
+        const { attemptId } = req.query;
+
+        // ✅ Validate input
+        if (!attemptId) {
+            return res.status(400).json({ error: "attempt ID is required" });
+        }
+
+        // ✅ Fetch quiz by ID
+        const attempt = await prisma.attempt.findUnique({
+            where: { id: attemptId },
+            include: { responses: true }, // Optional: Fetch related questions
+        });
+
+        // ✅ Handle case where quiz is not found
+        if (!attempt) {
+            return res.status(404).json({ error: "Attempt not found" });
+        }
+
+        res.status(200).json(attempt);
+    } catch (e) {
+        console.error("Error fetching attempt:", e);
+        res.status(500).json({ error: "Failed to fetch attempt" });
+    }
+};
 
 export const createquestion=async(req,res)=>{
     const { quizId } = req.query;

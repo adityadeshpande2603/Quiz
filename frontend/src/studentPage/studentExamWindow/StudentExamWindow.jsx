@@ -15,6 +15,9 @@ const StudentExamWindow = () => {
     const [quizName, setQuizName] = useState("");
     const [correctCount, setCorrectCount] = useState(0);
     const [overQuiz, setOverQuiz] = useState(false);
+    const [active,setActive]=useState(false);
+    const [startTime,setStartTime]=useState();
+    const [date,setDate]=useState();
     useEffect(() => {
         if (overQuiz) {
             handleSubmit(); // ✅ Auto-submit when the quiz time is up
@@ -36,6 +39,7 @@ const StudentExamWindow = () => {
 
 
                 setQuestions(res.data.questions || []);
+                setActive(res.data.isActive)
 
 
                 const answers = {};
@@ -47,6 +51,8 @@ const StudentExamWindow = () => {
                 console.log("Updated correctAnswer:", answers);
 
                 // ✅ Start Timer
+                setStartTime(res.data.startTime);
+                setDate(res.data.date);
                 startTimer(res.data.date, res.data.endTime);
             } catch (error) {
                 console.error("Error fetching questions:", error);
@@ -108,7 +114,9 @@ const StudentExamWindow = () => {
                 console.log(`Key: ${key}, Value: ${responses[key]}`);
 
                 const isCorrect = responses[key] === correctAnswer[key]; // ✅ Compute isCorrect before axios
-                if (isCorrect) correctCountTemp++; // ✅ Increment correct count
+                if (isCorrect) correctCountTemp++;
+                
+                console.log(correctCountTemp);// ✅ Increment correct count
 
                 try {
                     await axios.post(`http://localhost:3000/api/auth/teacher/homepage/createresponse?quizId=${quizId}`, {
@@ -125,16 +133,16 @@ const StudentExamWindow = () => {
             }
 
             setCorrectCount(correctCountTemp); // ✅ Update state after loop
-
-            await axios.put("http://localhost:3000/api/auth/teacher/homepage/updateattempt", {
+      console.log("correctCount",correctCount);
+           const updatedRes= await axios.put("http://localhost:3000/api/auth/teacher/homepage/updateattempt", {
                 attemptId: res.data.id,
-                score: correctCount
+                score: correctCountTemp
             }, {
                 withCredentials: true
             })
-            console.log("asdnasl");
+            console.log(updatedRes);
             alert("Quiz Submitted Successfully!");
-            // navigate("/student/homepage"); // Redirect to student homepage
+            navigate(`/student/result/${quizId}/${res.data.id}`);  
         } catch (error) {
             console.error("Error submitting quiz:", error);
         }
@@ -144,6 +152,19 @@ const StudentExamWindow = () => {
     }
 
     const currentQuestion = questions[currentQuestionIndex];
+
+    if(!active){
+        startTimer(date,startTime);
+
+    }
+    if (!active) {
+        return (
+            <div className="flex justify-center items-center h-screen flex-col">
+                <h2 className="text-2xl font-bold text-red-600">This quiz is not active yet!</h2>
+                <h2 className="text-lg font-bold">Quiz starts in: {timeLeft}</h2>
+            </div>
+        );
+    }
 
     return (
         <div className="exam-container flex flex-col h-screen">

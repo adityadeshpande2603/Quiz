@@ -6,8 +6,8 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import HomePage from './Pages/HomePage/HomePage.jsx';
 
+import HomePage from './Pages/HomePage/HomePage.jsx';
 import TeacherStudentCard from './Components/TeacherStudentCard.jsx/TeacherStudentCard.jsx';
 import TeacherSignUp from './Components/TeacherSignUp/TeacherSignUp.jsx';
 import TeacherSignIn from './Components/TeacherSignIn/TeacherSignIn.jsx';
@@ -17,77 +17,87 @@ import QuizBarGraph from './Components/QuizBarGraph/QuizBarGraph.jsx';
 import QuizQuestion from './Pages/QuizQuestion/QuizQuestion.jsx';
 import { AuthContextProvider } from '../lib/authContext/AuthContext.jsx';
 import { RequireAuth } from './Pages/RequireAuth/RequireAuth.jsx';
+
 import StudentSignUpPage from './studentPage/SignUpPage/StudentSignUpPage.jsx';
 import StudentSignInPage from './studentPage/studentSignInPage/StudentSignInPage.jsx';
 import StudentExamWindow from './studentPage/studentExamWindow/StudentExamWindow.jsx';
-
+import StudentResult from './studentPage/StudentResult/StudentResult.jsx';
+import StudentHomePage from './studentPage/StudentHomePage/StudentHomePage.jsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage></HomePage>,
+    element: <HomePage />,
     children: [
       {
         path: "/",
-        element: <TeacherStudentCard></TeacherStudentCard>
+        element: <TeacherStudentCard />
       },
       {
         path: "/teacher/register",
-        element: <TeacherSignUp></TeacherSignUp>
-
+        element: <TeacherSignUp />
       },
       {
         path: "/teacher/signin",
-        element: <TeacherSignIn></TeacherSignIn>
-
+        element: <TeacherSignIn />
       },
       {
-        path:"/student/register",
-        element:<StudentSignUpPage></StudentSignUpPage>
+        path: "/student/register",
+        element: <StudentSignUpPage />
       },
       {
-        path:"/student/signin",
-        element: <StudentSignInPage></StudentSignInPage>
+        path: "/student/signin",
+        element: <StudentSignInPage />
       }
-  
-
     ]
   },
+
+  // Protected Routes for Teachers
   {
     path: "/teacher/",
-    element: <RequireAuth></RequireAuth>,
-     children: [
+    element: <RequireAuth />, // ✅ Require authentication for teachers
+    children: [
       {
         path: "/teacher/",
-        element: <TeacherHomePage></TeacherHomePage>,
+        element: <TeacherHomePage />,
         children: [
           {
             path: "/teacher/homepage/",
-            element: <QuizBarGraph></QuizBarGraph>
+            element: <QuizBarGraph />
           },
           {
             path: "/teacher/homepage/quizquestion/:quizId",
-            element: <QuizQuestion></QuizQuestion>
+            element: <QuizQuestion />
           }
-
-
         ]
       },
       {
         path: "/teacher/createquiz",
-        element: <CreateQuiz></CreateQuiz>
+        element: <CreateQuiz />
       }
-
     ]
   },
+
+  // ✅ Protected Routes for Students
   {
-    path:"/student/quiz/:quizId",
-    element:<StudentExamWindow></StudentExamWindow>
+    path: "/student/",
+    element: <RequireAuth />, // ✅ Require authentication for students
+    children: [
+      {
+        path: "/student/homepage",
+        element: <StudentHomePage />
+      },
+      {
+        path: "/student/quiz/:quizId",
+        element: <StudentExamWindow />
+      },
+      {
+        path: "/student/result/:quizId/:attemptId",
+        element: <StudentResult />
+      }
+    ]
   }
-
-
 ]);
-
 
 const root = createRoot(document.getElementById('root'));
 root.render(
