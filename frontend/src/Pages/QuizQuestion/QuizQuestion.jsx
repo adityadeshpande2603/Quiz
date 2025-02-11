@@ -13,7 +13,7 @@ const QuizQuestion = () => {
         const fetchQuiz = async () => {
             try {
                 const res = await axios.get(
-                    `http://localhost:3000/api/auth/teacher/homepage/getquizbyid?quizId=${quizId}`,
+                    `https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/getquizbyid?quizId=${quizId}`,
                     { withCredentials: true }
                 );
 
@@ -34,7 +34,7 @@ const QuizQuestion = () => {
     const handleSaveClick = async () => {
         try {
             await axios.put(
-                `http://localhost:3000/api/auth/teacher/homepage/updatequizname?quizId=${quizId}`,
+                `https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/updatequizname?quizId=${quizId}`,
                 { quizName },
                 { withCredentials: true }
             );
@@ -48,7 +48,7 @@ const QuizQuestion = () => {
     const addQuestion = () => {
         setQuestions((prevQuestions) => [...prevQuestions, { fakeId: Date.now() }]);
 
-        
+
     };
 
     const removeQuestion = (questionId) => {
@@ -110,7 +110,7 @@ const QuizQuestion = () => {
                     <button className="h-10 w-36 bg-green-500 m-4" onClick={addQuestion}>
                         Add Question
                     </button>
-                    
+
                 </div>
             </div>
         </div>

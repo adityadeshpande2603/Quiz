@@ -18,7 +18,7 @@ const Question = ({ divId, removeDiv, addDiv, editQuestion }) => {
 
     useEffect(() => {
         if (editQuestion) {
-            console.log("editquestion",editQuestion);
+            console.log("editquestion", editQuestion);
             setFormData({
                 question: editQuestion.question || "",
                 optionA: editQuestion.optionA || "",
@@ -47,16 +47,16 @@ const Question = ({ divId, removeDiv, addDiv, editQuestion }) => {
         }));
     };
 
-    const deleteQuestion=async (questionId)=>{
+    const deleteQuestion = async (questionId) => {
 
-        try{
+        try {
 
-           await axios.delete(`http://localhost:3000/api/auth/teacher/homepage/deletequestion?questionId=${questionId}`,{withCredentials:true});
+            await axios.delete(`https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/deletequestion?questionId=${questionId}`, { withCredentials: true });
 
-           console.log("deleted successfully")
-           removeDiv(divId);
+            console.log("deleted successfully")
+            removeDiv(divId);
         }
-        catch(e){
+        catch (e) {
             console.log("not able to delete question")
         }
 
@@ -68,7 +68,7 @@ const Question = ({ divId, removeDiv, addDiv, editQuestion }) => {
 
         if (questionId) {
             try {
-                await axios.put("http://localhost:3000/api/auth/teacher/homepage/updatequestion", {
+                await axios.put("https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/updatequestion", {
                     questionId,
                     ...formData
                 }, { withCredentials: true });
@@ -79,7 +79,7 @@ const Question = ({ divId, removeDiv, addDiv, editQuestion }) => {
         } else {
             try {
                 const res = await axios.post(
-                    `http://localhost:3000/api/auth/teacher/homepage/createquestion?quizId=${quizId}`,
+                    `https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/createquestion?quizId=${quizId}`,
                     formData,
                     { withCredentials: true }
                 );
@@ -120,7 +120,7 @@ const Question = ({ divId, removeDiv, addDiv, editQuestion }) => {
                     <div className="options mt-4">
                         {["optionA", "optionB", "optionC", "optionD"].map((option, index) => (
                             <div key={option} className={`flex items-center space-x-2 p-2 
-                                ${(formData.correctAnswer === formData[option] && formData.correctAnswer!="") ? "bg-green-500" : ""}`}>
+                                ${(formData.correctAnswer === formData[option] && formData.correctAnswer != "") ? "bg-green-500" : ""}`}>
                                 <div className="h-7 w-7 border-black border-2 cursor-pointer"
                                     onClick={() => handleCheckboxClick(option)}>
                                 </div>

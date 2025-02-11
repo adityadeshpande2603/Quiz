@@ -15,16 +15,16 @@ const StudentResult = () => {
         const fetchResults = async () => {
             try {
                 const quizRes = await axios.get(
-                    `http://localhost:3000/api/auth/teacher/homepage/getquizbyid?quizId=${quizId}`,
+                    `https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/getquizbyid?quizId=${quizId}`,
                     { withCredentials: true }
                 );
 
                 const attemptRes = await axios.get(
-                    `http://localhost:3000/api/auth/teacher/homepage/getattemptbyid?attemptId=${attemptId}`,
+                    `https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/getattemptbyid?attemptId=${attemptId}`,
                     { withCredentials: true }
                 );
 
-                console.log(attemptRes);    `   `
+                console.log(attemptRes); `   `
 
                 setQuizName(quizRes.data.quizName);
                 setQuestions(quizRes.data.questions || []);

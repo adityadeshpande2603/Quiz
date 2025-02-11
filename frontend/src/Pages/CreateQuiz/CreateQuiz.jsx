@@ -34,11 +34,11 @@ const CreateQuiz = ({ onClose, setShowCreateQuiz }) => {
 
         // Convert date string (YYYY-MM-DD) to a Date object and format it to ISO
         const formattedDate = new Date(formData.date);
-        
+
         console.log("Formatted Date:", formattedDate.toISOString());
-        
+
         try {
-            const res=await axios.post("http://localhost:3000/api/auth/teacher/homepage/creatquiz", {
+            const res = await axios.post("https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/creatquiz", {
                 quizName: formData.quizName,
                 date: formattedDate.toISOString(), // Convert to valid ISO format for Prisma
                 startTime: formData.startTime,
@@ -47,12 +47,12 @@ const CreateQuiz = ({ onClose, setShowCreateQuiz }) => {
             }, { withCredentials: true });
 
             // Navigate after successful submission
-            console.log("res",res);
+            console.log("res", res);
             setTimeout(() => {
                 navigate(`/teacher/homepage/quizquestion/${res.data.id}`);
                 navigate(0);
             }, 0);
-           
+
         } catch (error) {
             console.error("Error creating quiz:", error);
         }

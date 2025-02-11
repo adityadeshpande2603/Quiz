@@ -14,7 +14,7 @@ const StudentHomePage = () => {
             if (!currentUser?.id) return;
             try {
                 const res = await axios.get(
-                    `http://localhost:3000/api/auth/student/getstudentbyid?studentId=${currentUser.id}`,
+                    `https://quiz-1-u3ch.onrender.com/api/auth/student/getstudentbyid?studentId=${currentUser.id}`,
                     { withCredentials: true }
                 );
                 setAttempts(res.data.attempts);
@@ -42,12 +42,12 @@ const StudentHomePage = () => {
                 {attempts.length > 0 ? (
                     attempts.map((attempt, index) => (
                         <Link to={`/student/result/${attempt.quizId}/${attempt.id}`}>
-                        <StudentCard
-                            key={index}
-                            quizId={attempt.quizId}
-                            score={attempt.score}
-                        />
-                    </Link>
+                            <StudentCard
+                                key={index}
+                                quizId={attempt.quizId}
+                                score={attempt.score}
+                            />
+                        </Link>
                     ))
                 ) : (
                     <p className="text-center text-gray-600 mt-4">No quiz attempts yet.</p>

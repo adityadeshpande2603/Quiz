@@ -9,12 +9,12 @@ const TeacherHomePageLeft = () => {
     const [searchQuery, setSearchQuery] = useState("");  // Search input state
     const navigate = useNavigate();
 
-    const {currentUser}=useContext(AuthContext);
+    const { currentUser } = useContext(AuthContext);
 
     useEffect(() => {
         const fetchQuizzes = async () => {
             try {
-                const res = await axios.get(`http://localhost:3000/api/auth/teacher/homepage/getquiz?teacherId=${currentUser.id}`, { withCredentials: true });
+                const res = await axios.get(`https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/getquiz?teacherId=${currentUser.id}`, { withCredentials: true });
                 setQuizzes(res.data);
                 setFilteredQuizzes(res.data);  // Initially, show all quizzes
                 console.log("asfhjaksnflakf")

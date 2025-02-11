@@ -5,7 +5,7 @@ import { AuthContext } from "../../../lib/authContext/AuthContext.jsx";
 
 const TeacherSignIn = () => {
 
-    const {currentUser,setCurrentUser,updateUser}=useContext(AuthContext);
+    const { currentUser, setCurrentUser, updateUser } = useContext(AuthContext);
 
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
@@ -31,9 +31,9 @@ const TeacherSignIn = () => {
 
 
         try {
-            const res = await axios.post("http://localhost:3000/api/auth/teacher/login", {
-                email: formData.email, 
-                password: formData.password, 
+            const res = await axios.post("https://quiz-1-u3ch.onrender.com/api/auth/teacher/login", {
+                email: formData.email,
+                password: formData.password,
             }, {
                 withCredentials: true,  // This ensures the cookie is sent
             });

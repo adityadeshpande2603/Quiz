@@ -34,7 +34,7 @@ const TeacherSignUp = () => {
         }
 
         try {
-            const res = await axios.post("http://localhost:3000/api/auth/teacher/register", {
+            const res = await axios.post("https://quiz-1-u3ch.onrender.com/api/auth/teacher/register", {
                 name: formData.fullName,
                 email: formData.email,
                 institute: formData.school, // Make sure to send the correct field here
@@ -44,7 +44,7 @@ const TeacherSignUp = () => {
             navigate("/teacher/signin");
         } catch (err) {
             console.error(err); // Log the entire error
-            
+
         }
     };
 

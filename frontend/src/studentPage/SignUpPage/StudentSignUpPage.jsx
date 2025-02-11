@@ -32,7 +32,7 @@ const StudentSignUpPage = () => {
         }
 
         try {
-            const res = await axios.post("http://localhost:3000/api/auth/student/register", {
+            const res = await axios.post("https://quiz-1-u3ch.onrender.com/api/auth/student/register", {
                 name: formData.fullName,
                 email: formData.email,
                 institute: formData.school, // Make sure to send the correct field here

@@ -15,9 +15,9 @@ const StudentExamWindow = () => {
     const [quizName, setQuizName] = useState("");
     const [correctCount, setCorrectCount] = useState(0);
     const [overQuiz, setOverQuiz] = useState(false);
-    const [active,setActive]=useState(false);
-    const [startTime,setStartTime]=useState();
-    const [date,setDate]=useState();
+    const [active, setActive] = useState(false);
+    const [startTime, setStartTime] = useState();
+    const [date, setDate] = useState();
     useEffect(() => {
         if (overQuiz) {
             handleSubmit(); // ✅ Auto-submit when the quiz time is up
@@ -28,7 +28,7 @@ const StudentExamWindow = () => {
         const fetchQuestions = async () => {
             try {
                 const res = await axios.get(
-                    `http://localhost:3000/api/auth/teacher/homepage/getquizbyid?quizId=${quizId}`,
+                    `https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/getquizbyid?quizId=${quizId}`,
                     { withCredentials: true }
                 );
 
@@ -105,7 +105,7 @@ const StudentExamWindow = () => {
     const handleSubmit = async () => {
         console.log("Responses Submitted:", responses);
         try {
-            const res = await axios.post(`http://localhost:3000/api/auth/teacher/homepage/createattempt?quizId=${quizId}`, {}, { withCredentials: true });
+            const res = await axios.post(`https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/createattempt?quizId=${quizId}`, {}, { withCredentials: true });
             console.log("Attempt Created", res.data);
 
             let correctCountTemp = 0; // ✅ Temporary variable to track correct answers
@@ -115,11 +115,11 @@ const StudentExamWindow = () => {
 
                 const isCorrect = responses[key] === correctAnswer[key]; // ✅ Compute isCorrect before axios
                 if (isCorrect) correctCountTemp++;
-                
+
                 console.log(correctCountTemp);// ✅ Increment correct count
 
                 try {
-                    await axios.post(`http://localhost:3000/api/auth/teacher/homepage/createresponse?quizId=${quizId}`, {
+                    await axios.post(`https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/createresponse?quizId=${quizId}`, {
                         attemptId: res.data.id,
                         questionId: key,
                         selectedAnswer: responses[key],
@@ -133,8 +133,8 @@ const StudentExamWindow = () => {
             }
 
             setCorrectCount(correctCountTemp); // ✅ Update state after loop
-      console.log("correctCount",correctCount);
-           const updatedRes= await axios.put("http://localhost:3000/api/auth/teacher/homepage/updateattempt", {
+            console.log("correctCount", correctCount);
+            const updatedRes = await axios.put("https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/updateattempt", {
                 attemptId: res.data.id,
                 score: correctCountTemp
             }, {
@@ -142,7 +142,7 @@ const StudentExamWindow = () => {
             })
             console.log(updatedRes);
             alert("Quiz Submitted Successfully!");
-            navigate(`/student/result/${quizId}/${res.data.id}`);  
+            navigate(`/student/result/${quizId}/${res.data.id}`);
         } catch (error) {
             console.error("Error submitting quiz:", error);
         }
@@ -153,8 +153,8 @@ const StudentExamWindow = () => {
 
     const currentQuestion = questions[currentQuestionIndex];
 
-    if(!active){
-        startTimer(date,startTime);
+    if (!active) {
+        startTimer(date, startTime);
 
     }
     if (!active) {
