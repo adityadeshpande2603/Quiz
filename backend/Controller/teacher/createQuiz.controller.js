@@ -141,13 +141,13 @@ export const createquestion=async(req,res)=>{
     
 }
 export const createattempt=async(req,res)=>{
-    const { quizId } = req.query;
+    const { quizId,studentId } = req.query;
     try{
         const {score}=req.body;
 
         const newAttempt=await prisma.attempt.create({
             data:{
-             studentId: req.userId,
+             studentId,
               quizId,
               score,
               submitted :true

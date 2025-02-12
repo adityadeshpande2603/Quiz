@@ -23,6 +23,7 @@ import StudentSignInPage from './studentPage/studentSignInPage/StudentSignInPage
 import StudentExamWindow from './studentPage/studentExamWindow/StudentExamWindow.jsx';
 import StudentResult from './studentPage/StudentResult/StudentResult.jsx';
 import StudentHomePage from './studentPage/StudentHomePage/StudentHomePage.jsx';
+import { StudentRequireAuth } from './Pages/RequireAuth/StudentRequireAuth.jsx';
 
 const router = createBrowserRouter([
   {
@@ -81,7 +82,7 @@ const router = createBrowserRouter([
   // ✅ Protected Routes for Students
   {
     path: "/student/",
-    element: <RequireAuth />, // ✅ Require authentication for students
+    element: <StudentRequireAuth />, // ✅ Require authentication for students
     children: [
       {
         path: "/student/homepage",

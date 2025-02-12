@@ -70,7 +70,7 @@ const StudentSignInPage = () => {
                 <button type="submit" className="bg-blue-500 text-white p-2">Submit</button>
                 <div className="flex space-x-2">
                     <div>don't have an account?</div>
-                    <Link to="/teacher/register">SignUp</Link>
+                    <Link to="/student/register">SignUp</Link>
                 </div>
             </form>
 

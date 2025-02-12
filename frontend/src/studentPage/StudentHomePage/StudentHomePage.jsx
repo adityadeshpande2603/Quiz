@@ -9,6 +9,8 @@ const StudentHomePage = () => {
     const { currentUser } = useContext(AuthContext);
     const navigate = useNavigate();
 
+    
+
     useEffect(() => {
         const fetchQuizzes = async () => {
             if (!currentUser?.id) return;
@@ -18,6 +20,7 @@ const StudentHomePage = () => {
                     { withCredentials: true }
                 );
                 setAttempts(res.data.attempts);
+                console.log(res)
             } catch (error) {
                 console.error("Error fetching quizzes:", error);
             }

@@ -39,7 +39,7 @@ const StudentSignUpPage = () => {
                 password: formData.password,
             });
             console.log(res);
-            navigate("/teacher/signin");
+            navigate("/student/signin");
         } catch (err) {
             console.error(err); // Log the entire error
 
