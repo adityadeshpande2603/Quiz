@@ -70,7 +70,7 @@ res.cookie("token",token,{
   httpOnly:true,
   secure: true,  // Required for HTTPS
   sameSite: "None",  // Required for cross-site cookies
-  domain: ".onrender.com",
+  // domain: ".onrender.com",
   maxAge:age
 }).status(200).json(teacherInfo)
 }
