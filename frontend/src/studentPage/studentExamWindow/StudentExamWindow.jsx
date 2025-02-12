@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import moment from "moment-timezone";
 import { AuthContext } from "../../../lib/authContext/AuthContext";
 
@@ -22,6 +22,8 @@ const StudentExamWindow = () => {
 
     const {currentUser}=useContext(AuthContext)
 
+
+  
     useEffect(() => {
         const fetchQuestions = async () => {
             try {

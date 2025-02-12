@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 import { useContext } from "react";
 import { AuthContext } from "../../../lib/authContext/AuthContext";
@@ -8,9 +8,9 @@ import { AuthContext } from "../../../lib/authContext/AuthContext";
 
 const StudentRequireAuth = () => {
   const { currentUser } = useContext(AuthContext);
-
+  const location = useLocation(); 
   return !currentUser ? (
-    <Navigate to="/student/signin"></Navigate>
+    <Navigate to="/student/signin" state={{ from: location }} replace />
   ) : (
     <div >
     

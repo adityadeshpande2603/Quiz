@@ -1,13 +1,15 @@
 import { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios"
 import { AuthContext } from "../../../lib/authContext/AuthContext.jsx";
 
 const StudentSignInPage = () => {
 
-    const { currentUser, setCurrentUser, updateUser } = useContext(AuthContext);
+    const { currentUser, setCurrentUser, updateUser,currentLocation } = useContext(AuthContext);
 
     const navigate = useNavigate();
+    let location=useLocation();
+    // console.log(location);
     const [formData, setFormData] = useState({
 
         email: "",
@@ -28,7 +30,7 @@ const StudentSignInPage = () => {
         // Log the form data (you can use this for API calls or validation)
         console.log(formData);
 
-
+        const from = location.state?.from?.pathname || "/student/homepage";
 
         try {
             const res = await axios.post("https://quiz-1-u3ch.onrender.com/api/auth/student/login", {
@@ -40,7 +42,7 @@ const StudentSignInPage = () => {
             console.log(res.data);
             updateUser(res.data);
             console.log("login", currentUser);
-            navigate("/student/homepage");
+            navigate(from, { replace: true });
         } catch (err) {
             console.error(err); // Log the entire error
 

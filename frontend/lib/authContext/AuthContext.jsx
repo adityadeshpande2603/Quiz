@@ -7,9 +7,15 @@ export const AuthContextProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("user") || null)
   );
 
+  const [currentLocation,setCurrentLocation]=useState();
+
   const updateUser = (data) => {
     setCurrentUser(data);
     // 
+  }
+
+  const updateLocation =(data)=>{
+    setCurrentLocation(data);
   }
 
   useEffect(() => {
@@ -17,7 +23,7 @@ export const AuthContextProvider = ({ children }) => {
   }, [currentUser]);
 
   return (
-    <AuthContext.Provider value={{ currentUser, setCurrentUser, updateUser }}>
+    <AuthContext.Provider value={{ currentUser, setCurrentUser, updateUser, currentLocation ,setCurrentLocation,updateLocation }}>
       {children}
     </AuthContext.Provider>
   );

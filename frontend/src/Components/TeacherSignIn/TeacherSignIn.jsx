@@ -1,11 +1,14 @@
 import { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios"
 import { AuthContext } from "../../../lib/authContext/AuthContext.jsx";
 
 const TeacherSignIn = () => {
 
     const { currentUser, setCurrentUser, updateUser } = useContext(AuthContext);
+
+
+    let location=useLocation();
 
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
@@ -50,8 +53,9 @@ const TeacherSignIn = () => {
 
     return (
         <div>
+              {console.log(location)}
             <form action="" onSubmit={handleSubmit} className="text-black flex flex-col border-2 border-black p-4 backdrop-blur-md bg-white/30">
-
+              
                 <div className="flex justify-between mb-4">
                     <label htmlFor="email">Email:</label>
                     <input id="email" type="email" className="border-2 border-gray-300 p-2"
