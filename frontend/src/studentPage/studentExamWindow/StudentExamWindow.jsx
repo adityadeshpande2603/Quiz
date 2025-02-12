@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import moment from "moment-timezone";
+import { AuthContext } from "../../../lib/authContext/AuthContext";
 
 const StudentExamWindow = () => {
     const { quizId } = useParams();
@@ -18,6 +19,8 @@ const StudentExamWindow = () => {
     const [startTime, setStartTime] = useState();
     const [endTime, setEndTime] = useState();
     const [date, setDate] = useState();
+
+    const {currentUser}=useContext(AuthContext)
 
     useEffect(() => {
         const fetchQuestions = async () => {
@@ -82,8 +85,9 @@ const StudentExamWindow = () => {
 
         console.log("Responses Submitted:", responses);
         try {
+            console.log(currentUser);
             const res = await axios.post(
-                `https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/createattempt?quizId=${quizId}?studentId=${currentUser.id}`,
+                `https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/createattempt?quizId=${quizId}&studentId=${currentUser.id}`,
                 {},
                 { withCredentials: true }
             );
