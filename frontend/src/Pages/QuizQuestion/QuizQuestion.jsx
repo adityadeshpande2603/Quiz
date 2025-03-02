@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Question from "../../Components/Question/Question";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+const backendUrl = import.meta.env.VITE_BACKEND_URL_PRODUCTION || import.meta.env.VITE_BACKEND_URL_LOCAL;
 
 const QuizQuestion = () => {
     const { quizId } = useParams();
@@ -13,7 +14,7 @@ const QuizQuestion = () => {
         const fetchQuiz = async () => {
             try {
                 const res = await axios.get(
-                    `https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/getquizbyid?quizId=${quizId}`,
+                    `${backendUrl}/api/auth/teacher/homepage/getquizbyid?quizId=${quizId}`,
                     { withCredentials: true }
                 );
 
@@ -34,7 +35,7 @@ const QuizQuestion = () => {
     const handleSaveClick = async () => {
         try {
             await axios.put(
-                `https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/updatequizname?quizId=${quizId}`,
+                `${backendUrl}/api/auth/teacher/homepage/updatequizname?quizId=${quizId}`,
                 { quizName },
                 { withCredentials: true }
             );

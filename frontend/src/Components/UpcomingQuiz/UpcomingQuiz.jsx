@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import moment from "moment-timezone";
+const backendUrl = import.meta.env.VITE_BACKEND_URL_PRODUCTION || import.meta.env.VITE_BACKEND_URL_LOCAL;
 
-const UpcomingQuiz = ({ quizName, date, startTime,endTime }) => {
+const UpcomingQuiz = ({ quizName, date, startTime, endTime }) => {
     const [remainingTime, setRemainingTime] = useState("");
 
     useEffect(() => {
@@ -13,13 +14,13 @@ const UpcomingQuiz = ({ quizName, date, startTime,endTime }) => {
             const diff = moment.duration(quizStartTime.diff(now));
             const diff1 = moment.duration(quizEndTime.diff(now));
 
-            if (diff.asSeconds() > 0 && diff1.asSeconds()>0) {
+            if (diff.asSeconds() > 0 && diff1.asSeconds() > 0) {
                 setRemainingTime(`${diff.hours()}h ${diff.minutes()}m ${diff.seconds()}s`);
-            } else if(diff.asSeconds() <= 0 && diff1.asSeconds()>0) {
+            } else if (diff.asSeconds() <= 0 && diff1.asSeconds() > 0) {
                 setRemainingTime("Quiz is Live!");
-               
+
             }
-            else if(diff.asSeconds() < 0 && diff1.asSeconds()<=0){
+            else if (diff.asSeconds() < 0 && diff1.asSeconds() <= 0) {
                 setRemainingTime("Quiz Ended!");
                 clearInterval(interval);
             }

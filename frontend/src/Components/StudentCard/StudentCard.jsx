@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+const backendUrl = import.meta.env.VITE_BACKEND_URL_PRODUCTION || import.meta.env.VITE_BACKEND_URL_LOCAL;
 
 const StudentCard = ({ score, quizId }) => {
 
@@ -8,7 +9,7 @@ const StudentCard = ({ score, quizId }) => {
     useEffect(() => {
         const fetchQuizzes = async () => {
             try {
-                const res = await axios.get(`https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/getquizbyid?quizId=${quizId}`, { withCredentials: true })
+                const res = await axios.get(`${backendUrl}/api/auth/teacher/homepage/getquizbyid?quizId=${quizId}`, { withCredentials: true })
                 // setQuizzes(res.data);
                 console.log(res);
 

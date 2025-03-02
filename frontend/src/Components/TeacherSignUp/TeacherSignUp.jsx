@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";  // Make sure axios is imported
 // 
+const backendUrl = import.meta.env.VITE_BACKEND_URL_PRODUCTION || import.meta.env.VITE_BACKEND_URL_LOCAL;
 const TeacherSignUp = () => {
     // State to manage form inputs
     const navigate = useNavigate();
@@ -34,7 +35,7 @@ const TeacherSignUp = () => {
         }
 
         try {
-            const res = await axios.post("https://quiz-1-u3ch.onrender.com/api/auth/teacher/register", {
+            const res = await axios.post(`${backendUrl}/api/auth/teacher/register`, {
                 name: formData.fullName,
                 email: formData.email,
                 institute: formData.school, // Make sure to send the correct field here

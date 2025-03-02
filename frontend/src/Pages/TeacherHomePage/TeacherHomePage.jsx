@@ -6,6 +6,7 @@ import CreateQuiz from "../CreateQuiz/CreateQuiz";
 import TeacherHomePageLeft from "../../Components/TeacherHomePageLeft/TeacherHomePageLeft";
 import moment from "moment-timezone";
 import { AuthContext } from "../../../lib/authContext/AuthContext";
+const backendUrl = import.meta.env.VITE_BACKEND_URL_PRODUCTION || import.meta.env.VITE_BACKEND_URL_LOCAL;
 
 const TeacherHomePage = () => {
     const [showCreateQuiz, setShowCreateQuiz] = useState(false);
@@ -15,7 +16,7 @@ const TeacherHomePage = () => {
     useEffect(() => {
         const fetchQuizzes = async () => {
             try {
-                const res = await axios.get(`https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/getquiz?teacherId=${currentUser.id}`, { withCredentials: true })
+                const res = await axios.get(`${backendUrl}/api/auth/teacher/homepage/getquiz?teacherId=${currentUser.id}`, { withCredentials: true })
                 setQuizzes(res.data);
             } catch (error) {
                 console.error("Error fetching quizzes:", error);

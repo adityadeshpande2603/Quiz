@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../lib/authContext/AuthContext";
+const backendUrl = import.meta.env.VITE_BACKEND_URL_PRODUCTION || import.meta.env.VITE_BACKEND_URL_LOCAL;
 
 const TeacherHomePageLeft = () => {
     const [quizzes, setQuizzes] = useState([]);  // Store all quizzes
@@ -14,7 +15,7 @@ const TeacherHomePageLeft = () => {
     useEffect(() => {
         const fetchQuizzes = async () => {
             try {
-                const res = await axios.get(`https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/getquiz?teacherId=${currentUser.id}`, { withCredentials: true });
+                const res = await axios.get(`${backendUrl}/api/auth/teacher/homepage/getquiz?teacherId=${currentUser.id}`, { withCredentials: true });
                 setQuizzes(res.data);
                 setFilteredQuizzes(res.data);  // Initially, show all quizzes
                 console.log("asfhjaksnflakf")

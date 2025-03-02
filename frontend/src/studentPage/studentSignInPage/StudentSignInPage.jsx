@@ -2,13 +2,13 @@ import { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios"
 import { AuthContext } from "../../../lib/authContext/AuthContext.jsx";
-
+const backendUrl = import.meta.env.VITE_BACKEND_URL_PRODUCTION || import.meta.env.VITE_BACKEND_URL_LOCAL;
 const StudentSignInPage = () => {
 
-    const { currentUser, setCurrentUser, updateUser,currentLocation } = useContext(AuthContext);
+    const { currentUser, setCurrentUser, updateUser, currentLocation } = useContext(AuthContext);
 
     const navigate = useNavigate();
-    let location=useLocation();
+    let location = useLocation();
     // console.log(location);
     const [formData, setFormData] = useState({
 
@@ -33,7 +33,7 @@ const StudentSignInPage = () => {
         const from = location.state?.from?.pathname || "/student/homepage";
 
         try {
-            const res = await axios.post("https://quiz-1-u3ch.onrender.com/api/auth/student/login", {
+            const res = await axios.post(`${backendUrl}/api/auth/student/login`, {
                 email: formData.email,
                 password: formData.password,
             }, {

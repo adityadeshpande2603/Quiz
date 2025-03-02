@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import moment from "moment-timezone";
 import { AuthContext } from "../../../lib/authContext/AuthContext";
+const backendUrl = import.meta.env.VITE_BACKEND_URL_PRODUCTION || import.meta.env.VITE_BACKEND_URL_LOCAL;
 
 const StudentExamWindow = () => {
     const { quizId } = useParams();
@@ -20,15 +21,15 @@ const StudentExamWindow = () => {
     const [endTime, setEndTime] = useState();
     const [date, setDate] = useState();
 
-    const {currentUser}=useContext(AuthContext)
+    const { currentUser } = useContext(AuthContext)
 
 
-  
+
     useEffect(() => {
         const fetchQuestions = async () => {
             try {
                 const res = await axios.get(
-                    `https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/getquizbyid?quizId=${quizId}`,
+                    `${backendUrl}/api/auth/teacher/homepage/getquizbyid?quizId=${quizId}`,
                     { withCredentials: true }
                 );
 
@@ -89,7 +90,7 @@ const StudentExamWindow = () => {
         try {
             console.log(currentUser);
             const res = await axios.post(
-                `https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/createattempt?quizId=${quizId}&studentId=${currentUser.id}`,
+                `${backendUrl}/api/auth/teacher/homepage/createattempt?quizId=${quizId}&studentId=${currentUser.id}`,
                 {},
                 { withCredentials: true }
             );
@@ -102,7 +103,7 @@ const StudentExamWindow = () => {
 
                 try {
                     await axios.post(
-                        `https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/createresponse?quizId=${quizId}`,
+                        `${backendUrl}/api/auth/teacher/homepage/createresponse?quizId=${quizId}`,
                         {
                             attemptId: res.data.id,
                             questionId: key,
@@ -118,7 +119,7 @@ const StudentExamWindow = () => {
 
             setCorrectCount(correctCountTemp);
             await axios.put(
-                "https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/updateattempt",
+                `${backendUrl}/api/auth/teacher/homepage/updateattempt`,
                 { attemptId: res.data.id, score: correctCountTemp },
                 { withCredentials: true }
             );

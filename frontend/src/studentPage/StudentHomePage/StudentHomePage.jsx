@@ -3,20 +3,21 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../../lib/authContext/AuthContext";
 import StudentCard from "../../Components/StudentCard/StudentCard";
+const backendUrl = import.meta.env.VITE_BACKEND_URL_PRODUCTION || import.meta.env.VITE_BACKEND_URL_LOCAL;
 
 const StudentHomePage = () => {
     const [attempts, setAttempts] = useState([]);
     const { currentUser } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    
+
 
     useEffect(() => {
         const fetchQuizzes = async () => {
             if (!currentUser?.id) return;
             try {
                 const res = await axios.get(
-                    `https://quiz-1-u3ch.onrender.com/api/auth/student/getstudentbyid?studentId=${currentUser.id}`,
+                    `${backendUrl}/api/auth/student/getstudentbyid?studentId=${currentUser.id}`,
                     { withCredentials: true }
                 );
                 setAttempts(res.data.attempts);

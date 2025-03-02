@@ -1,5 +1,6 @@
 import { Link, Outlet } from "react-router-dom";
 import TeacherStudentCard from "../../Components/TeacherStudentCard.jsx/TeacherStudentCard";
+const backendUrl = import.meta.env.VITE_BACKEND_URL_PRODUCTION || import.meta.env.VITE_BACKEND_URL_LOCAL;
 
 
 const HomePage = () => {
@@ -12,13 +13,13 @@ const HomePage = () => {
             ></div>
 
 
-           <Link to="/"> 
-           <img
-                src="/quiz.jpg"
-                alt="Quiz"
-                className="h-20 absolute left-7 top-7 z-10 "
-            /></Link>
-           
+            <Link to="/">
+                <img
+                    src="/quiz.jpg"
+                    alt="Quiz"
+                    className="h-20 absolute left-7 top-7 z-10 "
+                /></Link>
+
 
 
             {/* Overlay Content */}

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+const backendUrl = import.meta.env.VITE_BACKEND_URL_PRODUCTION || import.meta.env.VITE_BACKEND_URL_LOCAL;
 
 const Question = ({ divId, removeDiv, addDiv, editQuestion }) => {
     const { quizId } = useParams();
@@ -51,7 +52,7 @@ const Question = ({ divId, removeDiv, addDiv, editQuestion }) => {
 
         try {
 
-            await axios.delete(`https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/deletequestion?questionId=${questionId}`, { withCredentials: true });
+            await axios.delete(`${backendUrl}/api/auth/teacher/homepage/deletequestion?questionId=${questionId}`, { withCredentials: true });
 
             console.log("deleted successfully")
             removeDiv(divId);
@@ -68,7 +69,7 @@ const Question = ({ divId, removeDiv, addDiv, editQuestion }) => {
 
         if (questionId) {
             try {
-                await axios.put("https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/updatequestion", {
+                await axios.put(`${backendUrl}/api/auth/teacher/homepage/updatequestion`, {
                     questionId,
                     ...formData
                 }, { withCredentials: true });
@@ -79,7 +80,7 @@ const Question = ({ divId, removeDiv, addDiv, editQuestion }) => {
         } else {
             try {
                 const res = await axios.post(
-                    `https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/createquestion?quizId=${quizId}`,
+                    `${backendUrl}/api/auth/teacher/homepage/createquestion?quizId=${quizId}`,
                     formData,
                     { withCredentials: true }
                 );

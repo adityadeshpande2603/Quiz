@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../lib/authContext/AuthContext";
 import axios from "axios";
+const backendUrl = import.meta.env.VITE_BACKEND_URL_PRODUCTION || import.meta.env.VITE_BACKEND_URL_LOCAL;
 
 const CreateQuiz = ({ onClose, setShowCreateQuiz }) => {
     const navigate = useNavigate();
@@ -38,7 +39,7 @@ const CreateQuiz = ({ onClose, setShowCreateQuiz }) => {
         console.log("Formatted Date:", formattedDate.toISOString());
 
         try {
-            const res = await axios.post("https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/creatquiz", {
+            const res = await axios.post(`${backendUrl}/api/auth/teacher/homepage/creatquiz`, {
                 quizName: formData.quizName,
                 date: formattedDate.toISOString(), // Convert to valid ISO format for Prisma
                 startTime: formData.startTime,

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";  // Make sure axios is imported
+const backendUrl = import.meta.env.VITE_BACKEND_URL_PRODUCTION || import.meta.env.VITE_BACKEND_URL_LOCAL;
 const StudentSignUpPage = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
@@ -32,7 +33,7 @@ const StudentSignUpPage = () => {
         }
 
         try {
-            const res = await axios.post("https://quiz-1-u3ch.onrender.com/api/auth/student/register", {
+            const res = await axios.post(`${backendUrl}/api/auth/student/register`, {
                 name: formData.fullName,
                 email: formData.email,
                 institute: formData.school, // Make sure to send the correct field here

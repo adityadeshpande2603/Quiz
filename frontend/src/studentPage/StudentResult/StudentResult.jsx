@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
+const backendUrl = import.meta.env.VITE_BACKEND_URL_PRODUCTION || import.meta.env.VITE_BACKEND_URL_LOCAL;
 
 const StudentResult = () => {
     const { quizId, attemptId } = useParams();  // Fetch attemptId from URL params
@@ -15,12 +16,12 @@ const StudentResult = () => {
         const fetchResults = async () => {
             try {
                 const quizRes = await axios.get(
-                    `https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/getquizbyid?quizId=${quizId}`,
+                    `${backendUrl}/api/auth/teacher/homepage/getquizbyid?quizId=${quizId}`,
                     { withCredentials: true }
                 );
 
                 const attemptRes = await axios.get(
-                    `https://quiz-1-u3ch.onrender.com/api/auth/teacher/homepage/getattemptbyid?attemptId=${attemptId}`,
+                    `${backendUrl}/api/auth/teacher/homepage/getattemptbyid?attemptId=${attemptId}`,
                     { withCredentials: true }
                 );
 
